@@ -1,0 +1,80 @@
+{
+  "language": "Language",
+  "theme": "Theme",
+  "arabic": "Arabic",
+  "english": "English",
+  "light": "Light",
+  "dark": "Dark",
+  "start":"Let's Start",
+  "experience":"Personalize Your Experience",
+  "choose":"Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.",
+   "home":"Home",
+  "favorite":"Favorite",
+  "map":"Map",
+  "profile":"Profile",
+  "welcom":"Welcome Back ✨",
+  "location":"Cairo , Eygpt",
+  "all": "All",
+  "sport": "Sport",
+  "birthday": "Birthday",
+  "meeting": "Meeting",
+  "gaming": "Gaming",
+  "workShop": "WorkShop",
+  "bookClub": "Book Club",
+  "exhibition": "Exhibition",
+  "holiday": "Holiday",
+  "eating": "Eating",
+  "event_serch": "Sreach For Event",
+  "email": "Email",
+  "password": "Password",
+  "login": "Login",
+  "logout": "Logout",
+  "name": "Name",
+  "forget_pasword": "Forgot Password?",
+  "no_acount": "Don't Have an Account?",
+  "creat_acount": "Create Account",
+  "creat_event": "Create Event",
+  "or": "Or",
+  "login_google": "Login with Google",
+  "have_acount": "Already Have an Account?",
+  "reset_password": "Reset Password",
+  "regester": "Register",
+  "title_label": "Title",
+  "title_hint": "Event Title",
+  "description_label": "Description",
+  "description_hint": "Event Description",
+  "event_date_label": "Event Date",
+  "choose_date_button": "Choose Date",
+  "event_time_label": "Event Time",
+  "update_event": "Update Event",
+  "choose_time_button": "Choose Time",
+  "location_label": "Location",
+  "choose_location_button": "Choose Event Location",
+  "validator_title": "Please enter event title",
+  "add_event": "Add Event",
+  "validator_description": "Please enter event description",
+  "enter_email": "Please enter your email",
+  "enter_password": "Please enter your password",
+  "enter_repassword": "Please re-enter your password",
+  "invalid_email": "Invalid email format",
+  "password_mismatch": "Passwords do not match",
+  "enter_name": "Please enter your password",
+ "find_events_that_inspire_you": 
+    "Dive into a world of events crafted to fit your unique interests. Whether you're into live music, art workshops, professional networking, or simply discovering new experiences, we have something for everyone. Our curated recommendations will help you explore, connect, and make the most of every opportunity around you.",
+
+  "effortless_event_planning": 
+    "Take the hassle out of organizing events with our all-in-one planning tools. From setting up invites and managing RSVPs to scheduling reminders and coordinating details, we’ve got you covered. Plan with ease and focus on what matters – creating an unforgettable experience for you and your guests.",
+
+  "connect_with_friends_share_moments": 
+    "Make every event memorable by sharing the experience with others. Our platform lets you invite friends, keep everyone in the loop, and celebrate moments together. Capture and share the excitement with your network, so you can relive the highlights and cherish the memories.",
+
+  "title_1": 
+    "Find Events That Inspire You",
+
+  "title_2": 
+    "Effortless Event Planning",
+
+  "title_3": 
+    "Connect with Friends & Share Moments"
+  
+}

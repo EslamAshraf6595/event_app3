@@ -1,0 +1,9 @@
+flutter_native_splash:
+  background_image: assets/images/splashs Light.png  # Default image for light theme
+  android_12:
+    background_image: assets/images/splashs Light.png  # Default splash for Android 12+
+    color: "#FFFFFF"  # Use hex color code instead of Flutter-style Colors.white
+  fullscreen: true  # Ensures the splash screen takes up the whole screen
+  android: true  # Enable splash for Android
+  ios: true  # Enable splash for iOS
+  web: false  # Disable splash for the web (optional)
