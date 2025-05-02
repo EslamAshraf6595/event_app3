@@ -75,6 +75,30 @@
     "Effortless Event Planning",
 
   "title_3": 
-    "Connect with Friends & Share Moments"
+    "Connect with Friends & Share Moments",
+  "event_added": 
+  "Event Added Successfully",
+  "event_Failed": 
+  "Failed to Add Event",
+  "favorite_updated": 
+  "updated Favorite Successful",
+  "no_event": "No Event Exist",
+  "no_favorites": "No favorites Item Exist",
+  "loading_login": "Waiting...",
+  "login_success": "Login successfully.",
+  "login_success_title": "Success",
+  "login_error_title": "Error",
+  "user_not_found_error": "No user found for that email.",
+  "wrong_password_error": "Wrong password provided for that user.",
+  
+  "loading_register": "Loading...",
+  "register_success": "Registered successfully.",
+  "register_success_title": "Success",
+  "register_error_title": "Error",
+  "weak_password_error": "The password provided is too weak.",
+  "email_in_use_error": "The account already exists for that email.",
+
+  "ok_button": "OK",
+  "short_password_error": "The minimum length is 6."
   
 }

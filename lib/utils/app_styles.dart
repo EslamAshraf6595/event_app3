@@ -19,6 +19,8 @@ class AppStyles {
       fontSize: 20, fontWeight: FontWeight.bold, color: AppColor.whiteColor);
        static TextStyle meduim18dark = TextStyle(
       fontSize: 18, fontWeight: FontWeight.w600, color: AppColor.primeColordark);
+       static TextStyle meduim18white = TextStyle(
+      fontSize: 18, fontWeight: FontWeight.w600, color: AppColor.whiteColor);
       static TextStyle meduim10dark = TextStyle(
       fontSize: 10, fontWeight: FontWeight.w600, color: AppColor.primeColordark);
   static TextStyle regular20white = TextStyle(

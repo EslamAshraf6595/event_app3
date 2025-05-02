@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_planing_app/ui/authentication/Login/log_in.dart';
 import 'package:event_planing_app/ui/home/provider/language_provider.dart';
 import 'package:event_planing_app/ui/home/provider/theme_provider.dart';
 import 'package:event_planing_app/ui/home/tabs/profile/theme_Bottom_sheet.dart';
 import 'package:event_planing_app/utils/app_color.dart';
 import 'package:event_planing_app/utils/app_styles.dart';
 import 'package:event_planing_app/utils/assets_manager.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -200,6 +204,8 @@ class _ProfileTabState extends State<ProfileTab> {
           child: ElevatedButton(
             onPressed: () {
               // make log out from the app/or your acount
+              Navigator.of(context).pushReplacementNamed(LogIn.routeLogin);
+              setState(() {});
             },
             child: Row(
               children: [

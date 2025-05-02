@@ -8,17 +8,20 @@ import 'package:provider/provider.dart';
 typedef MyValiadatorFunction = String? Function(String?)?;
 
 class CustomTextformField extends StatelessWidget {
-  CustomTextformField({
-    super.key,
-    this.borderColor,
-    this.hintText,
-    this.labelText,
-    this.hinttextStyle,
-    this.prefixicon,
-    this.maxLines,
-    this.controllerText,
-    this.validator,this.suffixicon
-  });
+  CustomTextformField(
+      {super.key,
+      this.borderColor,
+      this.hintText,
+      this.labelText,
+      this.hinttextStyle,
+      this.prefixicon,
+      this.maxLines,
+      this.controllerText,
+      this.validator,
+      this.suffixicon,
+      this.keyBordType,
+      this.obscureText,
+      });
   MyValiadatorFunction validator;
   Color? borderColor;
   String? hintText;
@@ -27,20 +30,30 @@ class CustomTextformField extends StatelessWidget {
   TextStyle? hinttextStyle, lebeltextStyle;
   Widget? prefixicon, suffixicon;
   TextEditingController? controllerText;
+  TextInputType? keyBordType;
+  bool? obscureText;
   @override
   Widget build(BuildContext context) {
     var themeProvidet = Provider.of<ThemeProvider>(context);
     return TextFormField(
+      keyboardType:keyBordType??TextInputType.text ,
+
+      //this to make the text appering or not
+      obscureText:obscureText??false ,
+      obscuringCharacter: '*',
+      validator: validator,
       cursorColor: AppColor.primeColordark,
       maxLines: maxLines ?? 1,
       controller: controllerText,
-      validator: validator,
       decoration: InputDecoration(
         prefixIcon: prefixicon,
         prefixIconColor: themeProvidet.courrentThem == ThemeMode.dark
             ? AppColor.whiteColor
             : AppColor.colorBlack,
         suffixIcon: suffixicon,
+        suffixIconColor: themeProvidet.courrentThem == ThemeMode.dark
+            ? AppColor.whiteColor
+            : AppColor.colorBlack,
         hintText: hintText,
         labelText: labelText,
         hintStyle: hinttextStyle ?? AppStyles.inter16grey,

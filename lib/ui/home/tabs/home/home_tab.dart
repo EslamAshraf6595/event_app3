@@ -1,4 +1,6 @@
+import 'package:event_planing_app/ui/home/provider/eventsProvider.dart';
 import 'package:event_planing_app/ui/home/provider/language_provider.dart';
+import 'package:event_planing_app/ui/home/provider/my_user.dart';
 import 'package:event_planing_app/ui/home/tabs/home/enventItemBody.dart';
 import 'package:event_planing_app/ui/home/tabs/home/eventTabItem.dart';
 import 'package:event_planing_app/utils/app_color.dart';
@@ -6,7 +8,6 @@ import 'package:event_planing_app/utils/app_styles.dart';
 import 'package:event_planing_app/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
 class HomeTab extends StatefulWidget {
@@ -16,26 +17,19 @@ class HomeTab extends StatefulWidget {
   State<HomeTab> createState() => _HomeTabState();
 }
 
+late EventsProvider enevtListProvider;
+
 class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     var languageProvider = Provider.of<LanguageProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
+
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
 
-    List<String> eventsNameList = [
-      AppLocalizations.of(context)!.all,
-      AppLocalizations.of(context)!.sport,
-      AppLocalizations.of(context)!.birthday,
-      AppLocalizations.of(context)!.meeting,
-      AppLocalizations.of(context)!.gaming,
-      AppLocalizations.of(context)!.workShop,
-      AppLocalizations.of(context)!.bookClub,
-      AppLocalizations.of(context)!.exhibition,
-      AppLocalizations.of(context)!.holiday,
-      AppLocalizations.of(context)!.eating,
-    ];
-     final List<String> eventIconsList = [
+    List<String> eventIconsList = [
+      AppAssets.pick,
       AppAssets.pick,
       AppAssets.pick,
       AppAssets.pick,
@@ -57,6 +51,11 @@ class _HomeTabState extends State<HomeTab> {
       // Bootstrap.basket,
     ];
 
+    enevtListProvider = Provider.of<EventsProvider>(context);
+    enevtListProvider.getEventNameList(context);
+    if (enevtListProvider.listEvent.isEmpty) {
+      enevtListProvider.getAllEvents(userProvider.currentUser!.id??'');
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -70,7 +69,7 @@ class _HomeTabState extends State<HomeTab> {
                   style: AppStyles.regular14white,
                 ),
                 Text(
-                  'John Safwat',
+                  userProvider.currentUser!.name ?? '',
                   style: AppStyles.inter24white,
                 )
               ],
@@ -128,18 +127,23 @@ class _HomeTabState extends State<HomeTab> {
                   ],
                 ),
                 DefaultTabController(
-                  length: eventsNameList.length,
+                  length: enevtListProvider.eventsNameList.length,
                   child: TabBar(
                     onTap: (index) {
-                      widget.slectedTab = index;
-                      setState(() {});
+                      enevtListProvider.changeSlectedIndex(index,userProvider.currentUser!.id??'');
+                      setState(() {
+                        widget.slectedTab = index;
+                      });
                     },
                     labelPadding: EdgeInsets.zero,
                     isScrollable: true,
                     tabAlignment: TabAlignment.start,
                     dividerColor: Colors.transparent,
                     indicatorColor: Colors.transparent,
-                    tabs: eventsNameList.asMap().entries.map((entry) {
+                    tabs: enevtListProvider.eventsNameList
+                        .asMap()
+                        .entries
+                        .map((entry) {
                       int index = entry.key;
                       String eventName = entry.value;
                       return EventTabBarItem(
@@ -163,15 +167,24 @@ class _HomeTabState extends State<HomeTab> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: height * 0.015),
-                  child: EventItemBody(),
-                );
-              },
-              itemCount: 5,
-            ),
+            child: enevtListProvider.filterList.isEmpty
+                ? Center(
+                    child: Text(
+                      AppLocalizations.of(context)!.no_event,
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                  )
+                : ListView.builder(
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: height * 0.015),
+                        child: EventItemBody(
+                          event: enevtListProvider.filterList[index],
+                        ),
+                      );
+                    },
+                    itemCount: enevtListProvider.filterList.length,
+                  ),
           )
         ],
       ),

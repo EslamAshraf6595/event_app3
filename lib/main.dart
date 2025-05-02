@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_planing_app/firebase_options.dart';
 import 'package:event_planing_app/ui/authentication/Login/log_in.dart';
 import 'package:event_planing_app/ui/authentication/sin_in/regester.dart';
 import 'package:event_planing_app/ui/home/home_screen.dart';
+import 'package:event_planing_app/ui/home/provider/eventsProvider.dart';
+import 'package:event_planing_app/ui/home/provider/my_user.dart';
 import 'package:event_planing_app/ui/home/provider/theme_provider.dart';
 import 'package:event_planing_app/ui/home/tabs/home/add_event.dart';
 import 'package:event_planing_app/ui/introdction/Intordction1.dart';
@@ -11,7 +12,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-
 import 'ui/home/provider/language_provider.dart';
 import 'utils/app_theme.dart';
 
@@ -20,13 +20,19 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseFirestore.instance.disableNetwork();//make the App save data in the local storage
+  // await FirebaseFirestore.instance
+  //     .disableNetwork(); //make the App save data in the local storage
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
     ),
     ChangeNotifierProvider(
       create: (context) => LanguageProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => EventsProvider(),
+    ),ChangeNotifierProvider(
+      create: (context) => UserProvider(),
     )
   ], child: const MyApp()));
 }
@@ -46,7 +52,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      initialRoute: LogIn.routeLogin,
+      initialRoute:LogIn.routeLogin,
       routes: {
         Intordction1.routItro1: (context) => Intordction1(),
         IntroControle.routIntro: (context) => IntroControle(),

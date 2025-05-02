@@ -75,5 +75,29 @@
    "تخطيط فعاليات بسهولة",
 
  "title_3": 
-   "تواصل مع الأصدقاء وشارك اللحظات"
+   "تواصل مع الأصدقاء وشارك اللحظات",
+   "event_added": 
+  "تمت إضافة الحدث بنجاح",
+  "event_Failed": 
+  "فشل في إضافة الحدث",
+   "favorite_updated": 
+  "تم تحديث المفضلة بنجاح",
+    "no_event": "لا توجد فعاليات",
+  "no_favorites": "لا توجد عناصر مفضلة",
+  "loading_login": "جارٍ الانتظار...",
+  "login_success": "تم تسجيل الدخول بنجاح.",
+  "login_success_title": "نجاح",
+  "login_error_title": "خطأ",
+  "user_not_found_error": "لا يوجد مستخدم بهذا البريد الإلكتروني.",
+  "wrong_password_error": "كلمة المرور غير صحيحة لهذا المستخدم.",
+  
+  "loading_register": "جارٍ التحميل...",
+  "register_success": "تم التسجيل بنجاح.",
+  "register_success_title": "نجاح",
+  "register_error_title": "خطأ",
+  "weak_password_error": "كلمة المرور ضعيفة جداً.",
+  "email_in_use_error": "هذا البريد الإلكتروني مستخدم بالفعل.",
+
+  "ok_button": "موافق",
+  "short_password_error": "الحد الأدنى للطول هو 6 أحرف."
 }

@@ -1,5 +1,9 @@
+import 'package:event_planing_app/fireBaseUtils.dart';
+import 'package:event_planing_app/model/my_user.dart';
 import 'package:event_planing_app/ui/authentication/Login/log_in.dart';
+import 'package:event_planing_app/ui/home/home_screen.dart';
 import 'package:event_planing_app/ui/home/provider/language_provider.dart';
+import 'package:event_planing_app/ui/home/provider/my_user.dart';
 import 'package:event_planing_app/ui/home/provider/theme_provider.dart';
 import 'package:event_planing_app/ui/widget/custom_elevatedbuttom.dart';
 import 'package:event_planing_app/ui/widget/custom_textForm_field.dart';
@@ -7,6 +11,8 @@ import 'package:event_planing_app/ui/widget/togleSwitch.dart';
 import 'package:event_planing_app/utils/app_color.dart';
 import 'package:event_planing_app/utils/app_styles.dart';
 import 'package:event_planing_app/utils/assets_manager.dart';
+import 'package:event_planing_app/utils/dialog_Uutils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
@@ -16,10 +22,12 @@ class Register extends StatefulWidget {
   Register({super.key});
   static const routRegester = 'regester';
   var formKey = GlobalKey<FormState>();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController rePassword = TextEditingController();
+  TextEditingController nameController = TextEditingController(text: 'eslam');
+  TextEditingController emailController =
+      TextEditingController(text: 'eslam@gmail.com');
+  TextEditingController passwordController =
+      TextEditingController(text: '123456');
+  TextEditingController rePassword = TextEditingController(text: '123456');
   @override
   State<Register> createState() => _RegisterState();
 }
@@ -83,9 +91,16 @@ class _RegisterState extends State<Register> {
                         prefixicon: Icon(HeroIcons.envelope),
                         hintText: AppLocalizations.of(context)!.email,
                         controllerText: widget.emailController,
+                        keyBordType: TextInputType.emailAddress,
                         validator: (email) {
-                          if (email == null || email.isEmpty) {
+                          if (email == null || email.trim().isEmpty) {
                             return AppLocalizations.of(context)!.enter_email;
+                          }
+                          final bool emailValid = RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(email);
+                          if (!emailValid) {
+                            return 'Invalid Email Pattern';
                           }
                           return null;
                         },
@@ -98,9 +113,15 @@ class _RegisterState extends State<Register> {
                         hintText: AppLocalizations.of(context)!.password,
                         suffixicon: Icon(HeroIcons.eye_slash),
                         controllerText: widget.passwordController,
+                        keyBordType: TextInputType.number,
+                        //this meeins that the text not appering
+                        obscureText: true,
                         validator: (password) {
-                          if (password == null || password.isEmpty) {
+                          if (password == null || password.trim().isEmpty) {
                             return AppLocalizations.of(context)!.enter_password;
+                          }
+                          if (password.length < 6) {
+                            return "the minimum lenght is 6";
                           }
                           return null;
                         },
@@ -113,10 +134,21 @@ class _RegisterState extends State<Register> {
                         hintText: AppLocalizations.of(context)!.reset_password,
                         suffixicon: Icon(HeroIcons.eye_slash),
                         controllerText: widget.rePassword,
-                        validator: (rePassword) {
-                          if (rePassword == null || rePassword.isEmpty) {
+
+                        keyBordType: TextInputType.number,
+
+                        //this meeins that the text not appering
+                        obscureText: true,
+                        validator: (password) {
+                          if (password == null || password.trim().isEmpty) {
                             return AppLocalizations.of(context)!
                                 .enter_repassword;
+                          }
+                          if (password.length < 6) {
+                            return "the minimum lenght is 6";
+                          }
+                          if (password != widget.passwordController.text) {
+                            return "Re-Password does Not match Passord";
                           }
                           return null;
                         },
@@ -201,8 +233,63 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void Regester() {
-    if (widget.formKey.currentState!.validate() == true)
-      Navigator.of(context).pushNamed(LogIn.routeLogin);
+  void Regester() async {
+    if (widget.formKey.currentState!.validate() == true) {
+      DialogUtils.showMessage(
+        context: context,
+        message: AppLocalizations.of(context)!.loading_register,
+      );
+      try {
+        final credential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: widget.emailController.text,
+          password: widget.passwordController.text,
+        );
+
+        //to set the data to MyUser class to FireBaseFireStore.
+        MyUser myUser = MyUser(
+            id: credential.user!.uid ?? '',
+            name: widget.nameController.text,
+            email: widget.emailController.text);
+        await FireBaseUtils.addUserToFireStore(myUser); //don't missing it becuase if you don't add it no data will be add
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.updateUserName(myUser);
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showMessage(
+          context: context,
+          message: AppLocalizations.of(context)!.register_success,
+          title: AppLocalizations.of(context)!.register_success_title,
+          posActionName: AppLocalizations.of(context)!.ok_button,
+          posAction: () {
+            Navigator.of(context).pushReplacementNamed(HomeScreen.routHome);
+          },
+        );
+      } on FirebaseAuthException catch (e) {
+        DialogUtils.hideLoading(context: context);
+        String errorMessage = '';
+        if (e.code == 'weak-password') {
+          errorMessage = AppLocalizations.of(context)!.weak_password_error;
+        } else if (e.code == 'email-already-in-use') {
+          errorMessage = AppLocalizations.of(context)!.email_in_use_error;
+        } else {
+          errorMessage =
+              e.message ?? AppLocalizations.of(context)!.register_error_title;
+        }
+        DialogUtils.showMessage(
+          context: context,
+          message: errorMessage,
+          title: AppLocalizations.of(context)!.register_error_title,
+          posActionName: AppLocalizations.of(context)!.ok_button,
+        );
+      } catch (e) {
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showMessage(
+          context: context,
+          message: e.toString(),
+          title: AppLocalizations.of(context)!.register_error_title,
+          posActionName: AppLocalizations.of(context)!.ok_button,
+        );
+      }
+    }
   }
 }

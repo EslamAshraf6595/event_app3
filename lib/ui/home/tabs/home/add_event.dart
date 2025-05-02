@@ -1,5 +1,8 @@
 import 'package:event_planing_app/fireBaseUtils.dart';
 import 'package:event_planing_app/model/firebaseAddEvent.dart';
+import 'package:event_planing_app/toast_utils.dart';
+import 'package:event_planing_app/ui/home/provider/eventsProvider.dart';
+import 'package:event_planing_app/ui/home/provider/my_user.dart';
 import 'package:event_planing_app/ui/home/provider/theme_provider.dart';
 import 'package:event_planing_app/ui/home/tabs/home/eventTabItem.dart';
 import 'package:event_planing_app/ui/widget/costum_TimeOrDate.dart';
@@ -34,12 +37,15 @@ class _AddEvetState extends State<AddEvet> {
   String formatTime = '';
   String eventImage = '';
   var eventName;
-
+  late EventsProvider enevtListProvider;
+  late UserProvider userProvider;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final themeProvider = Provider.of<ThemeProvider>(context);
+    enevtListProvider = Provider.of<EventsProvider>(context);
+    userProvider = Provider.of<UserProvider>(context);
 
     final List<String> eventsNameList = [
       AppLocalizations.of(context)!.sport,
@@ -87,7 +93,7 @@ class _AddEvetState extends State<AddEvet> {
     ];
 
     eventImage = eventsImageList[selectedTabBar];
-    eventName = eventIconsList[selectedTabBar];
+    eventName = eventsNameList[selectedTabBar];
 
     return Scaffold(
       appBar: AppBar(
@@ -289,19 +295,22 @@ class _AddEvetState extends State<AddEvet> {
         time: formatTime,
       );
 
-      FireBaseUtils.addEventToFireStor(event).timeout(
-        Duration(milliseconds: 500),
-        onTimeout: () {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Event Added Successfully"),
-            backgroundColor: Colors.green,
-          ));
+      FireBaseUtils.addEventToFireStor(
+              event, userProvider.currentUser!.id ?? '')
+          .then(
+        (value) {
+          ToastUtils.toastMassage(
+              backGroundColor: Colors.green,
+              textColor: AppColor.whiteColor,
+              massage: AppLocalizations.of(context)!.add_event);
+          enevtListProvider.getAllEvents(userProvider.currentUser!.id ?? '');
+          Navigator.pop(context);
         },
       ).catchError((errror) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Failed to Add Event"),
-          backgroundColor: Colors.red,
-        ));
+        ToastUtils.toastMassage(
+            backGroundColor: AppColor.red,
+            textColor: AppColor.whiteColor,
+            massage: AppLocalizations.of(context)!.event_Failed);
       });
     }
   }
