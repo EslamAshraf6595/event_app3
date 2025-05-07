@@ -55,4 +55,10 @@ class FireBaseUtils {
     // return getEvnetColoection().doc().set(event); if you want to amke it in one line
     return docRefrance.set(event);
   }
+static Future<void> updateEventInFirestore(Event event, String userId) {
+  final doc = getEvnetColoection(userId).doc(event.id);
+  return doc.set(event); // Using .set() instead of .update() ensures full overwrite
+}
+
+
 }

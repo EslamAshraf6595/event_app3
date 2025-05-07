@@ -1,10 +1,9 @@
 import 'package:event_planing_app/fireBaseUtils.dart';
 import 'package:event_planing_app/model/my_user.dart';
-import 'package:event_planing_app/ui/authentication/Login/log_in.dart';
-import 'package:event_planing_app/ui/home/home_screen.dart';
 import 'package:event_planing_app/ui/home/provider/language_provider.dart';
 import 'package:event_planing_app/ui/home/provider/my_user.dart';
 import 'package:event_planing_app/ui/home/provider/theme_provider.dart';
+import 'package:event_planing_app/ui/introdction/Intordction1.dart';
 import 'package:event_planing_app/ui/widget/custom_elevatedbuttom.dart';
 import 'package:event_planing_app/ui/widget/custom_textForm_field.dart';
 import 'package:event_planing_app/ui/widget/togleSwitch.dart';
@@ -251,7 +250,8 @@ class _RegisterState extends State<Register> {
             id: credential.user!.uid ?? '',
             name: widget.nameController.text,
             email: widget.emailController.text);
-        await FireBaseUtils.addUserToFireStore(myUser); //don't missing it becuase if you don't add it no data will be add
+        await FireBaseUtils.addUserToFireStore(
+            myUser); //don't missing it becuase if you don't add it no data will be add
         var userProvider = Provider.of<UserProvider>(context, listen: false);
         userProvider.updateUserName(myUser);
         DialogUtils.hideLoading(context: context);
@@ -261,7 +261,7 @@ class _RegisterState extends State<Register> {
           title: AppLocalizations.of(context)!.register_success_title,
           posActionName: AppLocalizations.of(context)!.ok_button,
           posAction: () {
-            Navigator.of(context).pushReplacementNamed(HomeScreen.routHome);
+            Navigator.of(context).pushReplacementNamed(Intordction1.routItro1);
           },
         );
       } on FirebaseAuthException catch (e) {

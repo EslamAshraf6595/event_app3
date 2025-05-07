@@ -27,7 +27,7 @@ static const String eventColection = 'event_firestore_data';
       'title': title,
       'description': description,
       'eventDate':
-          dateTime.millisecondsSinceEpoch, //it will return date as an int
+      dateTime.millisecondsSinceEpoch, //it will return date as an int
       'eventTime': time,
       'isFavorite': isFavorite,
     };

@@ -17,6 +17,8 @@ class EventItemBody extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var eventListProvider = Provider.of<EventsProvider>(context);
     var userProvider = Provider.of<UserProvider>(context);
+ 
+   
     return Container(
       margin: EdgeInsets.symmetric(horizontal: width * 0.04),
       width: width * 0.2,
@@ -81,8 +83,8 @@ class EventItemBody extends StatelessWidget {
                   IconButton(
                       onPressed: () {
                         //make it favorite
-                        eventListProvider.updateIsFavoriteItem(
-                            event, context, userProvider.currentUser!.id ?? '');
+                        eventListProvider.updateIsFavoriteItem(event, context,
+                            userProvider.currentUser!.id ?? '');
                       },
                       icon: Image.asset(
                         event.isFavorite == true

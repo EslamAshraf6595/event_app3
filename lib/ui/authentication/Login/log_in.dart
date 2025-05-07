@@ -1,8 +1,8 @@
 import 'package:event_planing_app/fireBaseUtils.dart';
 import 'package:event_planing_app/ui/authentication/sin_in/regester.dart';
-import 'package:event_planing_app/ui/home/home_screen.dart';
 import 'package:event_planing_app/ui/home/provider/language_provider.dart';
 import 'package:event_planing_app/ui/home/provider/my_user.dart';
+import 'package:event_planing_app/ui/introdction/Intordction1.dart';
 import 'package:event_planing_app/ui/widget/custom_elevatedbuttom.dart';
 import 'package:event_planing_app/ui/widget/custom_textForm_field.dart';
 import 'package:event_planing_app/ui/widget/togleSwitch.dart';
@@ -248,7 +248,7 @@ class _LogInState extends State<LogIn> {
           title: AppLocalizations.of(context)!.login_success_title,
           posActionName: AppLocalizations.of(context)!.ok_button,
           posAction: () {
-            Navigator.of(context).pushReplacementNamed(HomeScreen.routHome);
+            Navigator.of(context).pushReplacementNamed(Intordction1.routItro1);
           },
         );
       } on FirebaseAuthException catch (e) {

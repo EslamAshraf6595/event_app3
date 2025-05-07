@@ -37,4 +37,6 @@ class AppAssets {
    static String pick = "assets/images/pick.png";
     static String birthday = "assets/images/birthday.png";
      static String book_Club = "assets/images/book_Club.png";
+     static String calinder = "assets/images/calinder.png";
+      static String mapImage = "assets/images/mapImage.png";
 }
