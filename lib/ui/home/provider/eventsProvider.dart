@@ -38,7 +38,7 @@ class EventsProvider extends ChangeNotifier {
 
   void getAllEvents(String uId) async {
     QuerySnapshot<Event> querySnapshot =
-        await FireBaseUtils.getEvnetColoection(uId).get();
+        await FireBaseUtils.getEventsCollection(uId).get();
     listEvent = querySnapshot.docs.map((doc) {
       return doc.data();
     }).toList();
@@ -51,7 +51,7 @@ class EventsProvider extends ChangeNotifier {
   }
 
   void getFilterEventsFromFireStore(String uId) async {
-    var querySnapshot = await FireBaseUtils.getEvnetColoection(uId)
+    var querySnapshot = await FireBaseUtils.getEventsCollection(uId)
         .where('eventName', isEqualTo: eventsNameList[slectedIndex])
         .orderBy('eventDate')
         .get();
@@ -62,7 +62,7 @@ class EventsProvider extends ChangeNotifier {
   }
 
   void updateIsFavoriteItem(Event event, BuildContext context,String uId) {
-    FireBaseUtils.getEvnetColoection(uId)
+    FireBaseUtils.getEventsCollection(uId)
         .doc(event.id)
         .update({'isFavorite': !event.isFavorite}).timeout(
       Duration(milliseconds: 300),
@@ -78,7 +78,7 @@ class EventsProvider extends ChangeNotifier {
   }
 
   void geAllIsFavoriteEnevts(String uId) async {
-    var querySnapshot = await FireBaseUtils.getEvnetColoection(uId)
+    var querySnapshot = await FireBaseUtils.getEventsCollection(uId)
         .where('isFavorite', isEqualTo: true)
         .orderBy('eventDate')
         .get();

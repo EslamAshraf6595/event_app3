@@ -1,6 +1,6 @@
 import 'package:event_planing_app/ui/home/provider/eventsProvider.dart';
 import 'package:event_planing_app/ui/widget/custom_textForm_field.dart';
-import 'package:event_planing_app/ui/home/tabs/home/enventItemBody.dart';
+import 'package:event_planing_app/ui/home/tabs/home/eventItemBody.dart';
 import 'package:event_planing_app/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

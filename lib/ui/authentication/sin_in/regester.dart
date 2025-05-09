@@ -250,7 +250,7 @@ class _RegisterState extends State<Register> {
             id: credential.user!.uid ?? '',
             name: widget.nameController.text,
             email: widget.emailController.text);
-        await FireBaseUtils.addUserToFireStore(
+        await FireBaseUtils.addUserToFirestore(
             myUser); //don't missing it becuase if you don't add it no data will be add
         var userProvider = Provider.of<UserProvider>(context, listen: false);
         userProvider.updateUserName(myUser);

@@ -1,3 +1,4 @@
+import 'package:event_planing_app/fireBaseUtils.dart';
 import 'package:event_planing_app/model/firebaseAddEvent.dart';
 import 'package:event_planing_app/ui/home/provider/current_event_provider.dart';
 import 'package:event_planing_app/ui/home/provider/theme_provider.dart';
@@ -52,14 +53,31 @@ class EventDetils extends StatelessWidget {
                   size: 25,
                 ),
               ),
-              IconButton(
-                  onPressed: () {
-                    //delete
-                  },
-                  icon: Icon(
-                    Icons.delete,
-                    size: 25,
-                  )),
+             IconButton(
+  onPressed: () async {
+    final event = currentEventProvider.currentEvent;
+
+    if (event != null && event.id != null) {
+      try {
+        await FireBaseUtils.deleteEventFromFirestore(event.id, event.id!);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Event deleted successfully')),
+        );
+        Navigator.of(context).pop(); // Go back after deletion
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to delete event: $e')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Event ID or user ID is missing')),
+      );
+    }
+  },
+  icon: Icon(Icons.delete, size: 25),
+),
+
             ],
           )),
       body: Padding(

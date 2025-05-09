@@ -1,4 +1,3 @@
-import 'package:event_planing_app/fireBaseUtils.dart';
 import 'package:event_planing_app/firebase_options.dart';
 import 'package:event_planing_app/ui/authentication/Login/log_in.dart';
 import 'package:event_planing_app/ui/authentication/sin_in/regester.dart';
@@ -39,7 +38,7 @@ void main() async {
     ChangeNotifierProvider(
       create: (context) => UserProvider(),
     ),
-     ChangeNotifierProvider(
+    ChangeNotifierProvider(
       create: (context) => CurrentEventProvider(),
     )
   ], child: const MyApp()));
@@ -68,8 +67,8 @@ class MyApp extends StatelessWidget {
         AddEvet.routeAddEvent: (context) => AddEvet(),
         LogIn.routeLogin: (context) => LogIn(),
         Register.routRegester: (context) => Register(),
-        EventDetils.routeDetails:(context)=>EventDetils(),
-        EditEventData.routeEditedata:(context)=>EditEventData(),
+        EventDetils.routeDetails: (context) => EventDetils(),
+        EditEventData.routeEditedata: (context) => EditEventData(),
       },
       locale: Locale(languageProvider.currentLanguage),
     );

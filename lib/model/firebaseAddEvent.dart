@@ -43,5 +43,6 @@ static const String eventColection = 'event_firestore_data';
             description: data['description'],
             dateTime: DateTime.fromMillisecondsSinceEpoch(data['eventDate']),
             time: data['eventTime'],
-           isFavorite: data['isFavorite']);
+           isFavorite: data['isFavorite']
+           );
 }

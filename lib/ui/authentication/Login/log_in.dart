@@ -234,7 +234,7 @@ class _LogInState extends State<LogIn> {
           password: passwordController.text,
         );
 
-        var user = await FireBaseUtils.readUserFromFireStor(
+        var user = await FireBaseUtils.readUserFromFirestore(
             credential.user?.uid ?? '');
         if (user == null) {
           return;

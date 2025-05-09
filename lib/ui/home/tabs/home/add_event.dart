@@ -295,10 +295,12 @@ class _AddEvetState extends State<AddEvet> {
         time: formatTime,
       );
 
-      FireBaseUtils.addEventToFireStor(
-              event, userProvider.currentUser!.id ?? '')
+      FireBaseUtils.addEventToFirestore(
+              event, userProvider.currentUser!.id??'')
           .then(
         (value) {
+          print("current id: ${userProvider.currentUser!.id}");
+          print("event id: ${event.id}");
           ToastUtils.toastMassage(
               backGroundColor: Colors.green,
               textColor: AppColor.whiteColor,

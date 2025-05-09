@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
 import 'package:event_planing_app/ui/authentication/Login/log_in.dart';
 import 'package:event_planing_app/ui/home/provider/language_provider.dart';
 import 'package:event_planing_app/ui/home/provider/theme_provider.dart';
@@ -6,11 +6,10 @@ import 'package:event_planing_app/ui/home/tabs/profile/theme_Bottom_sheet.dart';
 import 'package:event_planing_app/utils/app_color.dart';
 import 'package:event_planing_app/utils/app_styles.dart';
 import 'package:event_planing_app/utils/assets_manager.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import 'language_Bottom_sheet.dart';
@@ -23,12 +22,15 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
+  File? image; // Declare the image variable here
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var languageProvider = Provider.of<LanguageProvider>(context);
     var themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         shape: RoundedRectangleBorder(
@@ -59,14 +61,14 @@ class _ProfileTabState extends State<ProfileTab> {
                               bottomLeft: Radius.circular(40),
                               bottomRight: Radius.circular(40)),
                       image: DecorationImage(
-                          image: AssetImage(
-                            AppAssets.testImageProfile,
-                          ),
+                          image: image == null
+                              ? AssetImage(AppAssets.testImageProfile)
+                              : FileImage(image!) as ImageProvider,
                           fit: BoxFit.cover)),
                 ),
                 IconButton(
                     onPressed: () {
-                      //make it pick from the phone;
+                      getLostData(); // Trigger image picker when clicked
                     },
                     icon: Icon(
                       Clarity.camera_solid,
@@ -86,8 +88,6 @@ class _ProfileTabState extends State<ProfileTab> {
                     'John Safwat',
                     style: AppStyles.inter24white,
                     softWrap: true,
-                    //or
-                    //overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
                   SizedBox(
@@ -97,7 +97,6 @@ class _ProfileTabState extends State<ProfileTab> {
                     "JohnSafwat@gamil.com",
                     style: AppStyles.inter16white,
                     softWrap: true,
-                    // overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
                 ],
@@ -236,6 +235,18 @@ class _ProfileTabState extends State<ProfileTab> {
         )
       ]),
     );
+  }
+
+  // Image picking method
+  Future<void> getLostData() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera);
+
+    if (pickedImage == null) return;
+
+    setState(() {
+      image = File(pickedImage.path); // Update the image with the picked file
+    });
   }
 
   void showLanguageBottomSheet() {

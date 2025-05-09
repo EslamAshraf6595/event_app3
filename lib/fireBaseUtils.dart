@@ -3,62 +3,53 @@ import 'package:event_planing_app/model/firebaseAddEvent.dart';
 import 'package:event_planing_app/model/my_user.dart';
 
 class FireBaseUtils {
-  static CollectionReference<Event> getEvnetColoection(String uId) {
-    return getUserCololection().doc(uId)
+  // Get the user's events subcollection with proper conversion
+  static CollectionReference<Event> getEventsCollection(String userId) {
+    return getUsersCollection()
+        .doc(userId)
         .collection(Event.eventColection)
         .withConverter<Event>(
-          fromFirestore: (snapshot, options) =>
-              Event.fromFireStor(snapshot.data()!),
-          toFirestore: (event, options) => event.toFirestore(),
+          fromFirestore: (snapshot, _) => Event.fromFireStor(snapshot.data()!),
+          toFirestore: (event, _) => event.toFirestore(),
         );
-
-        // FirebaseFirestore.instance
-        // .collection(Event.eventColection)
-        // .withConverter<Event>(
-        //   fromFirestore: (snapshot, options) =>
-        //       Event.fromFireStor(snapshot.data()!),
-        //   toFirestore: (event, options) => event.toFirestore(),
-        // );
   }
 
-  static CollectionReference<MyUser> getUserCololection() {
+  // Get the main users collection with proper conversion
+  static CollectionReference<MyUser> getUsersCollection() {
     return FirebaseFirestore.instance
         .collection(MyUser.coloectionName)
         .withConverter<MyUser>(
-          fromFirestore: (snapshot, options) =>
-              MyUser.fromFireStor(snapshot.data()!),
-          toFirestore: (myUser, options) => myUser.toFirestore(),
+          fromFirestore: (snapshot, _) => MyUser.fromFireStor(snapshot.data()!),
+          toFirestore: (user, _) => user.toFirestore(),
         );
   }
 
-  static Future<void> addUserToFireStore(MyUser myUser) {
-    return getUserCololection().doc(myUser.id).set(myUser);
+  // Add a new user to Firestore
+  static Future<void> addUserToFirestore(MyUser user) {
+    return getUsersCollection().doc(user.id).set(user);
   }
 
-  static Future<MyUser?> readUserFromFireStor(String id) async {
-    var quarySnapshot = await getUserCololection().doc(id).get();
-    return quarySnapshot.data();
+  // Read user data from Firestore
+  static Future<MyUser?> readUserFromFirestore(String userId) async {
+    final snapshot = await getUsersCollection().doc(userId).get();
+    return snapshot.data();
   }
 
-  static Future<void> addEventToFireStor(Event event,String uId) {
-    // FirebaseFirestore.instance
-    //     .collection(Event.eventColection)
-    //     .withConverter<Event>(
-    //       fromFirestore: (snapshot, options) =>
-    //           Event.fromFireStor(snapshot.data()!),
-    //       toFirestore: (event, options) => event.toFirestore(),
-    //     ); i take it and make a new function because i will use it a lot of time
-    var eventCollection = getEvnetColoection(uId); //asign the collection
-    DocumentReference<Event> docRefrance =
-        eventCollection.doc(); //make a document
-    event.id = docRefrance.id;
-    // return getEvnetColoection().doc().set(event); if you want to amke it in one line
-    return docRefrance.set(event);
+  // Add a new event to Firestore and assign the generated ID
+  static Future<void> addEventToFirestore(Event event, String userId) {
+    final eventCollection = getEventsCollection(userId);
+    final docRef = eventCollection.doc(); // Auto-generate ID
+    event.id = docRef.id;
+    return docRef.set(event);
   }
-static Future<void> updateEventInFirestore(Event event, String userId) {
-  final doc = getEvnetColoection(userId).doc(event.id);
-  return doc.set(event); // Using .set() instead of .update() ensures full overwrite
-}
 
+ // Update an existing event
+  static Future<void> updateEventInFirestore(Event event, String userId) {
+    return getEventsCollection(userId).doc(event.id).set(event);
+  }
 
+  // Delete an event
+  static Future<void> deleteEventFromFirestore(String userId, String eventId) {
+    return getEventsCollection(userId).doc(eventId).delete();
+  }
 }

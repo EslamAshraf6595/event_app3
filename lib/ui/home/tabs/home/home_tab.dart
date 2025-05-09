@@ -2,7 +2,7 @@ import 'package:event_planing_app/ui/home/provider/current_event_provider.dart';
 import 'package:event_planing_app/ui/home/provider/eventsProvider.dart';
 import 'package:event_planing_app/ui/home/provider/language_provider.dart';
 import 'package:event_planing_app/ui/home/provider/my_user.dart';
-import 'package:event_planing_app/ui/home/tabs/home/enventItemBody.dart';
+import 'package:event_planing_app/ui/home/tabs/home/eventItemBody.dart';
 import 'package:event_planing_app/ui/home/tabs/home/eventTabItem.dart';
 import 'package:event_planing_app/ui/home/tabs/home/event_detils.dart';
 import 'package:event_planing_app/utils/app_color.dart';
